@@ -2,17 +2,9 @@ package main
 
 import (
 	"fmt"
-
+	"io/ioutil"
+	"strconv"
 )
-
-//maxBrightness := 937
-//current := func now() int {
-//	a, err := ioutil.ReadFile("/sys/class/backlight/intel_backlight/brightness")
-//	check(err)
-//	s := string(a)
-//	i, err := strconv.Atoi(s)
-//	return i
-//}
 
 func percentage(current int) float64 {
 	const max = 937
@@ -21,7 +13,12 @@ func percentage(current int) float64 {
 }
 
 func main() {
-	fmt.Println(percentage(504))
+	v, err := ioutil.ReadFile("/sys/class/backlight/intel_backlight/brightness")
+	check(err)
+	s := string(v)
+	i, err := strconv.Atoi(s)
+	check(err)
+	fmt.Println(percentage(i))
 }
 
 func check(e error) {
