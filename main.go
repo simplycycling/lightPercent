@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"strings"
 	"strconv"
 )
 
@@ -16,7 +17,8 @@ func main() {
 	v, err := ioutil.ReadFile("/sys/class/backlight/intel_backlight/brightness")
 	check(err)
 	s := string(v)
-	i, err := strconv.Atoi(s)
+	cl := strings.TrimSuffix(s, "\n")
+	i, err := strconv.Atoi(cl)
 	check(err)
 	fmt.Println(percentage(i))
 }
